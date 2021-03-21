@@ -16,35 +16,30 @@ export default function Navigation() {
     let iconName;
     switch (route.name) {
       case 'restaurants':
-        iconName = 'compass-outline'
+        iconName = 'compass-outline';
         break;
       case 'favorites':
-        iconName = 'heart-outline'
+        iconName = 'heart-outline';
         break;
       case 'top-restaurants':
-        iconName = 'star-outline'
+        iconName = 'star-outline';
         break;
       case 'search':
-        iconName = 'magnify'
+        iconName = 'magnify';
         break;
       case 'account':
-        iconName = 'home-outline'
+        iconName = 'home-outline';
         break;
     }
     return (
-      <Icon 
-        type="material-community" 
-        name={iconName} 
-        size={22} 
-        color={color} 
-      />
-    );
-  };
+      <Icon type="material-community" name={iconName} size={22} color={color} />
+    )
+  }
 
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="search"
+        initialRouteName="restaurants"
         tabBarOptions={{
           inactiveTintColor: '#a17dc3',
           activeTintColor: '#442484'
