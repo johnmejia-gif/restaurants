@@ -46,7 +46,8 @@ export default function Navigation() {
         }}
         screenOptions={({route}) => ({
           tabBarIcon: ({color}) => screenOptions(route, color)
-        })}>
+        })}
+      >
         <Tab.Screen
           name="restaurants"
           component={RestaurantsStack}
