@@ -11,3 +11,29 @@ export const isUserLogged = () => {
   });
   return isLogged;
 };
+
+export const closeSession = ()=> {
+  return firebase.auth().signOut()
+}
+
+export const registerUser = async (email, password) => {
+  const result = {statusResponse: true, error: null};
+  try {
+    await firebase.auth().createUserWithEmailAndPassword(email, password);
+  } catch (error) {
+    result.statusResponse = false
+    result.error = 'Este correo ya está registrado.';
+  }
+  return result;
+};
+
+export const loginWithEmailAndPassword = async (email, password) => {
+  const result = {statusResponse: true, error: null};
+  try {
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    result.statusResponse = false
+    result.error = 'Usuario ó contraseña no válidos.';
+  }
+  return result;
+};

@@ -5,11 +5,12 @@ import Login from '../screens/account/login';
 import Register from '../screens/account/Register';
 
 const Stack = createStackNavigator();
+
 export default function AccountStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Account"
+        name="account"
         component={Account}
         options={{title: 'Cuenta'}}
       />
@@ -23,6 +24,7 @@ export default function AccountStack() {
         component={Register}
         options={{title: 'Registrar Usuario'}}
       />
+      
     </Stack.Navigator>
   );
 }

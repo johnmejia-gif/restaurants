@@ -2,21 +2,23 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import LoginForm from '../../components/account/LoginForm';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 
 export default function Login() {
   return (
-    <ScrollView>
+    <KeyboardAwareScrollView>
       <Image
         source={require('../../assets/restaurant-logo.png')}
         resizeMode="contain"
         style={styles.image}
       />
       <View style={styles.container}>
-        <Text>Loging form</Text>
+        <LoginForm />
         <CreateAccount />
       </View>
       <Divider style={styles.divider} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -25,7 +27,6 @@ function CreateAccount(props) {
   return (
     <Text
       style={styles.register}
-      
       onPress={() => navigation.navigate('register')}>
       ¿Aun no tienes una cuenta?{' '}
       <Text style={styles.btnregister}>Regístrate</Text>
