@@ -1,8 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Account from '../screens/account/Account';
-import Login from '../screens/account/login';
+import Login from '../screens/account/Login';
 import Register from '../screens/account/Register';
+import SelFoto from '../screens/account/SelFoto';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,11 @@ export default function AccountStack() {
         component={Register}
         options={{title: 'Registrar Usuario'}}
       />
-      
+      <Stack.Screen
+        name="selFoto"
+        component={SelFoto}
+        options={{title: 'Seleccionar una foto'}}
+      />
     </Stack.Navigator>
   );
 }
