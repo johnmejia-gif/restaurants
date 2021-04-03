@@ -19,9 +19,7 @@ import {updateProfile, uploadImage} from '../../utils/actions';
 import {InteractionManager} from 'react-native';
 
 export default function InfoUser({user, setLoading, setLoadingText}) {
-  const [filePath, setFilePath] = useState({
-    
-  });
+  const [filePath, setFilePath] = useState({});
   const [photoUrl, setPhotoUrl] = useState(user.photoURL);
 
   const changePhoto = async () => {
