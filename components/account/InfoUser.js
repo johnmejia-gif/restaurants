@@ -13,10 +13,11 @@ import {
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Avatar} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
-
-import {cualquierCosa, loadingImageFromGalery} from '../../utils/helpers';
-import {updateProfile, uploadImage} from '../../utils/actions';
 import {InteractionManager} from 'react-native';
+
+import {cualquierCosa, loadImageFromGalery} from '../../utils/helpers';
+import {updateProfile, uploadImage} from '../../utils/actions';
+
 
 export default function InfoUser({user, setLoading, setLoadingText}) {
   const [filePath, setFilePath] = useState({});
@@ -27,11 +28,36 @@ export default function InfoUser({user, setLoading, setLoadingText}) {
     //const result = async () => {
     //  cualquierCosa();
     //};
-    const result = await cualquierCosa();
+    //const result = await cualquierCosa();
     //loadingImageFromGalery();
-    //const result = await loadingImageFromGalery([1,1]);
+    const result = await loadImageFromGalery();
     //const result = await loadingImageFromGalery();
-    console.log('devolvió cualquier cosa= ', result);
+    
+    console.log('**** devolvió desde el helpers= ', result);
+    if (!result.status) {
+      return;
+    }
+    setLoadingText('Actualizando imagen...');
+    setLoading(true);
+    const resultUploadImage = await uploadImage(
+      result.image,
+      'avatars',
+      user.uid,
+    );
+    if (!resultUploadImage.statusResponse) {
+      setLoading(false);
+      Alert.alert('Ha ocurrido un error al almacenar la foto de perfil.');
+      return;
+    }
+    const resultUpdateProfie = await updateProfile({
+      photoURL: resultUploadImage.url,
+    });
+    setLoading(false);
+    if (resultUpdateProfie.statusResponse) {
+      setPhotoUrl(resultUploadImage.url);
+    } else {
+      Alert.alert('Ha ocurrido un error al actualizar la foto de perfil.');
+    }
   };
   const navigation = useNavigation();
 
@@ -108,10 +134,10 @@ export default function InfoUser({user, setLoading, setLoadingText}) {
             dos();
           });
         });
-        //dos();
         console.log('****tres***');
       }
       await uno();
+      
       console.log('******** fin **********');
     })();
 
@@ -178,6 +204,7 @@ export default function InfoUser({user, setLoading, setLoadingText}) {
       <Avatar
         rounded={true}
         size="large"
+        // onPress={changePhoto}
         onPress={async () => {
           await chooseFile('photo');
         }}
