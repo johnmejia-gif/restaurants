@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import {Avatar, Button, Icon, Input, Image} from 'react-native-elements';
 import CountryPicker from 'react-native-country-picker-modal';
-import {filter, map, size} from 'lodash';
+import {filter, map, size, isEmpty} from 'lodash';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {validateEmail} from '../../utils/helpers';
 
 const widthScreen = Dimensions.get('window').width;
 
@@ -19,14 +20,65 @@ export default function AddRestaurantForm({toastRef, setLoading, navigation}) {
   const [formData, setFormData] = useState(defaultFormValues());
   const [errorName, setErrorName] = useState(null);
   const [errorDescription, setErrorDescription] = useState(null);
-  const [errorEmail, setErrorEmailn] = useState(null);
+  const [errorEmail, setErrorEmail] = useState(null);
   const [errorAddress, setErrorAddress] = useState(null);
   const [errorPhone, setErrorPhone] = useState(null);
   const [imagesSelected, setImagesSelected] = useState([]);
 
   const addRestaurant = () => {
-    console.log(formData);
+    //console.log(formData);
+    if (!validForm()) {
+      return;
+    }
     console.log('****Todo bien*****');
+  };
+
+  const validForm = () => {
+    clearErrors();
+    let isValid = true;
+
+    if (isEmpty(formData.name)) {
+      setErrorName('Debes ingresar el nombre del restaurante.');
+      isValid = false;
+    }
+
+    if (isEmpty(formData.address)) {
+      setErrorAddress('Debes ingresar la dirección del restaurante.');
+      isValid = false;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setErrorEmail('Debes ingresar un email de restaurante válido.');
+      isValid = false;
+    }
+
+    if (size(formData.phone) < 10) {
+      setErrorPhone('Debes ingresar un teléfono de restaurante válido.');
+      isValid = false;
+    }
+
+    if (isEmpty(formData.description)) {
+      setErrorDescription('Debes ingresar una descripción del restaurante.');
+      isValid = false;
+    }
+
+    if (size(imagesSelected) === 0) {
+      toastRef.current.show(
+        'Debes de agregar al menos una imagen al restaurante.',
+        3000,
+      );
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const clearErrors = () => {
+    setErrorAddress(null);
+    setErrorDescription(null);
+    setErrorEmail(null);
+    setErrorName(null);
+    setErrorPhone(null);
   };
 
   return (
